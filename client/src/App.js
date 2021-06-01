@@ -12,7 +12,16 @@ import PersonalPosts from './pages/PersonalPosts'
 import Stats from './pages/Stats'
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  constructor(props){
+    super(props)
+    this.state = {
+      storageValue:0,
+      web3: null,
+      accounts: null,
+      contract: null,
+      ipfs: null
+    };
+  }
 
   componentDidMount = async () => {
     try {
@@ -61,8 +70,12 @@ class App extends Component {
   };
 
   render() {
-    if (!this.state.web3) {
+    const { storageValue, web3, accounts, contract, ipfs } = this.state;
+    if (!web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
+    }
+    if (!ipfs) {
+      return <div>Loading Ipfs...</div>;
     }
     return (
       <BrowserRouter>
@@ -70,7 +83,9 @@ class App extends Component {
             <Navbar />
             <Switch>
               <Route path='/' exact component={Home} />
-              <Route path='/new-post' component={WriteAPost} />
+              <Route path='/new-post'>
+                <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
+              </Route>
               <Route path='/posts' component={PersonalPosts} />
               <Route path='/stats' component={Stats} />
             </Switch>

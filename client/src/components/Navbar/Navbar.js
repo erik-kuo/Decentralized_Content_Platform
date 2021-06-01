@@ -4,7 +4,7 @@ import {
   NavLink,
   Bars,
   NavMenu,
-  NavBtn,
+  // NavBtn,
   NavBtnLink
 } from './NavbarStyle';
 
