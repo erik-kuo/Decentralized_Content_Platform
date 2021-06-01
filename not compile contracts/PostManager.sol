@@ -1,4 +1,4 @@
-pragma solidity >=0.5.0 <0.6.0;
+pragma solidity >0.6.0 <=0.7.0;
 
 contract PostManager {
     struct Post {
@@ -30,6 +30,8 @@ contract PostManager {
     }
     
     constructor() internal {
-        createPost("Hello, world", ["https://upload.cc/i1/2021/05/31/0vubq6.png"]);
+        string[] memory images = new string[](1);
+        images[0] = "https://upload.cc/i1/2021/05/31/0vubq6.png";
+        createPost("Hello, world", images);
     }
 }
