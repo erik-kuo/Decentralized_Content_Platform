@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ipfs-core": "^0.7.0",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.2.0",
+    "solc": "^0.6.1",
     "styled-components": "^5.3.0",
     "web3": "1.2.2"
   },
