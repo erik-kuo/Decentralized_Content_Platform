@@ -12,7 +12,7 @@ contract Nickname {
         }
     }
     
-    function setNickname(string memory _nickname) external {
+    function setNickname(string calldata _nickname) external {
         userNickname[msg.sender] = _nickname;
     }
 }
