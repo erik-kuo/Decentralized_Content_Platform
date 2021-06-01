@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Layout from './Layout'
+import Progress from './Progress'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <div>
+      <App name="i am progress bar">change percent index.js</App>
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
