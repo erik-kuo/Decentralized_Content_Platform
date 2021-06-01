@@ -5,7 +5,7 @@ import {
   Bars,
   NavMenu,
   // NavBtn,
-  NavBtnLink
+  //NavBtnLink
 } from './NavbarStyle';
 
 const Navbar = () => {
@@ -27,7 +27,6 @@ const Navbar = () => {
           <NavLink to='/stats' activeStyle>
             Stats
           </NavLink>
-          <NavBtnLink to='/sign-in'>Sign In</NavBtnLink>
         </NavMenu>
       </Nav>
     </>

@@ -79,16 +79,16 @@ class App extends Component {
     }
     return (
       <BrowserRouter>
-          <div className="App">
-            <Navbar />
-            <Switch>
-              <Route path='/' exact component={Home} />
-              <Route path='/new-post'>
-                <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
-              </Route>
-              <Route path='/posts' component={PersonalPosts} />
-              <Route path='/stats' component={Stats} />
-            </Switch>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/new-post'>
+              <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
+            </Route>
+            <Route path='/posts' component={PersonalPosts} />
+            <Route path='/stats' component={Stats} />
+          </Switch>
         </div>
       </BrowserRouter>
     );

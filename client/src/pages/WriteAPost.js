@@ -23,6 +23,8 @@ class WriteAPost extends Component {
     console.log('Result CID', path)
 
     /* Do stuff with contract */
+    // save text string to contract
+    // save image ipfs path
   }
 
   render() {
