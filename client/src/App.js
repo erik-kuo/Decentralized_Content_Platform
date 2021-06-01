@@ -1,37 +1,83 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import getWeb3 from "./getWeb3";
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Ipfs from 'ipfs-core';
+
+import "./App.css";
+import Navbar from './components/Navbar/Navbar'
+import Home from './pages/Home'
+import WriteAPost from './pages/WriteAPost'
+import PersonalPosts from './pages/PersonalPosts'
+import Stats from './pages/Stats'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      repoName: null
-    }
-    this.handleClick=this.handleClick.bind(this);
-  }
+  state = { storageValue: 0, web3: null, accounts: null, contract: null };
 
-  handleClick(){
-    fetch( 'https://api.github.com/users/jserv/repos',{method:"GET"})
-    .then(res => res.json())
-    .then(data => {
-          /*接到request data後要做的事情*/
-          this.setState({repoName: data[0]['name']});
-    })
-    .catch(e => {
-        /*發生錯誤時要做的事情*/
-        console.log(e);
-    })
-  }
+  componentDidMount = async () => {
+    try {
+      // Get network provider and web3 instance.
+      const web3 = await getWeb3();
+
+      // Use web3 to get the user's accounts.
+      const accounts = await web3.eth.getAccounts();
+
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = SimpleStorageContract.networks[networkId];
+      const instance = new web3.eth.Contract(
+        SimpleStorageContract.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+
+      // Set web3, accounts, and contract to the state, and then proceed with an
+      // example of interacting with the contract's methods.
+      this.setState({ web3, accounts, contract: instance }, this.runExample);
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    }
+    if (!this.state.ipfs) {
+      const ipfsNode = await Ipfs.create()
+      this.setState({ipfs: ipfsNode})
+      console.log('Init Ipfs')
+    }
+  };
+
+  runExample = async () => {
+    const { accounts, contract } = this.state;
+
+    // Stores a given value, 5 by default.
+    await contract.methods.set(5).send({ from: accounts[0] });
+
+    // Get the value from the contract to prove it worked.
+    const response = await contract.methods.get().call();
+
+    // Update state with the result.
+    this.setState({ storageValue: response });
+  };
 
   render() {
+    if (!this.state.web3) {
+      return <div>Loading Web3, accounts, and contract...</div>;
+    }
     return (
-      <div className="App">
-        <div className="data-display">
-          {(this.state.repoName===null)?"目前還有沒有資料":this.state.repoName}
+      <BrowserRouter>
+          <div className="App">
+            <Navbar />
+            <Switch>
+              <Route path='/' exact component={Home} />
+              <Route path='/new-post' component={WriteAPost} />
+              <Route path='/posts' component={PersonalPosts} />
+              <Route path='/stats' component={Stats} />
+            </Switch>
         </div>
-        <button onClick={this.handleClick}>取得jserv以英文字母排序的第一個repo</button>
-    </div>
-    )
+      </BrowserRouter>
+    );
   }
-};
+}
 
 export default App;
