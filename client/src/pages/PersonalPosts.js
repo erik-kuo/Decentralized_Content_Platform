@@ -11,7 +11,6 @@ const PersonalPosts = () => {
       <Grid relaxed>
       <Grid.Row>
         <Grid.Column width={4}>
-
             <Profile/>
         </Grid.Column>
         <Grid.Column width={12}>
