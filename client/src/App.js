@@ -12,6 +12,7 @@ import PersonalPosts from './pages/PersonalPosts';
 import Stats from './pages/Stats';
 // import Sidebar from './components/Sidebar';
 import MyMenu from './components/Menu';
+import SinglePost from "./pages/SinglePost";
 
 
 class App extends Component {
@@ -98,6 +99,7 @@ class App extends Component {
             </Route>
             <Route path='/posts' component={PersonalPosts} />
             <Route path='/stats' component={Stats} />
+            <Route path='/singlepost' component={SinglePost} />
           </Switch>
         </div>
      </BrowserRouter>
