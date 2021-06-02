@@ -13,6 +13,7 @@ import Stats from './pages/Stats';
 // import Sidebar from './components/Sidebar';
 import MyMenu from './components/Menu';
 import SinglePost from "./pages/SinglePost";
+import { Container } from "semantic-ui-react";
 
 
 class App extends Component {
@@ -92,15 +93,17 @@ class App extends Component {
      <BrowserRouter>
         <div className="App">
           <MyMenu/>
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/new-post'>
-              <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
-            </Route>
-            <Route path='/posts' component={PersonalPosts} />
-            <Route path='/stats' component={Stats} />
-            <Route path='/singlepost/:id' component={SinglePost} />
-          </Switch>
+          <Container style={{ marginTop: '20px' }}>
+            <Switch>
+              <Route path='/' exact component={Home} />
+              <Route path='/new-post'>
+                <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
+              </Route>
+              <Route path='/posts' component={PersonalPosts} />
+              <Route path='/stats' component={Stats} />
+              <Route path='/singlepost/:id' component={SinglePost} />
+            </Switch>
+          </Container>
         </div>
      </BrowserRouter>
      
