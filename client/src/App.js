@@ -5,12 +5,14 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Ipfs from 'ipfs-core';
 
 import "./App.css";
-import Navbar from './components/Navbar/Navbar'
-import Home from './pages/Home'
-import WriteAPost from './pages/WriteAPost'
-import PersonalPosts from './pages/PersonalPosts'
-import Stats from './pages/Stats'
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import WriteAPost from './pages/WriteAPost';
+import PersonalPosts from './pages/PersonalPosts';
+import Stats from './pages/Stats';
+import Sidebar from './components/Sidebar';
 
+/*
 class App extends Component {
   constructor(props){
     super(props)
@@ -19,8 +21,14 @@ class App extends Component {
       web3: null,
       accounts: null,
       contract: null,
-      ipfs: null
+      ipfs: null,
+      isOpen: false
     };
+  }
+
+  toggle = async () => {
+    this.setState({ isOpen: !(this.state.isOpen) });
+    this.state.isOpen? console.log('Open'): console.log('Close');
   }
 
   componentDidMount = async () => {
@@ -70,17 +78,18 @@ class App extends Component {
   };
 
   render() {
-    const { storageValue, web3, accounts, contract, ipfs } = this.state;
+    const { storageValue, web3, accounts, contract, ipfs, isOpen } = this.state;
     if (!web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     if (!ipfs) {
       return <div>Loading Ipfs...</div>;
     }
-    return (
-      <BrowserRouter>
+    
+   return (/*
+     <BrowserRouter>
         <div className="App">
-          <Navbar />
+          <Navbar toggle={this.toggle}/>
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/new-post'>
@@ -89,10 +98,21 @@ class App extends Component {
             <Route path='/posts' component={PersonalPosts} />
             <Route path='/stats' component={Stats} />
           </Switch>
+          <Sidebar isOpen={this.isOpen} toggle={this.toggle}/>
         </div>
-      </BrowserRouter>
-    );
+     </BrowserRouter>
+     
+   );
   }
+}
+*/
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Home/>
+    </BrowserRouter>
+  );
 }
 
 export default App;

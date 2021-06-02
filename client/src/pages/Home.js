@@ -1,12 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { BrowserRouter } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
+  
   return (
-    <div>
-      <h1>Home</h1>
-      <p>View all posts on platform.</p>
-    </div>
-  )
+    
+    <>
+      <Sidebar onClick={isOpen} toggle={toggle}/>
+      <Navbar toggle={toggle}/>
+    </>
+    /*
+   
+   <div>
+     <h1>
+       View all posts.
+     </h1>
+   </div>
+   */
+  );
 }
 
-export default Home
+export default Home;
