@@ -12,13 +12,16 @@ const PersonalPosts = () => {
     <Container textAlign='left'>
       <Grid relaxed>
       <Grid.Row>
-        
-        <Grid.Column width={4}>
 
+          <Ref innerRef={contextRef}>
+          <Rail width={4}>
+          <Sticky context={contextRef} offset={100}>
             <Profile/>
+          </Sticky>
+          </Rail>
+          </Ref>
 
-        </Grid.Column>
-        <Grid.Column width={12}>
+        <Grid.Column floated='right' width={12}>
           <Posts/>
         </Grid.Column>
       </Grid.Row>
