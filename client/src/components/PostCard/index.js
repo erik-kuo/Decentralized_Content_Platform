@@ -12,12 +12,13 @@ const description = [
 
 
 const PostCard = () => {
-    
+    const id = 0;
+    const pathStr='/singlepost/'+id
     return (
     <Item
         name='singlepost'
         as={LinkR}
-        to='/singlepost/0'>
+        to={pathStr}>
     <Item.Image src='https://taiwan.sharelife.tw/tw-feat-pres-img/39276/2849100418245409.jpg' />
 
     <Item.Content>
