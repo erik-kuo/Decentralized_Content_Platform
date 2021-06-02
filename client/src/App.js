@@ -99,7 +99,7 @@ class App extends Component {
             </Route>
             <Route path='/posts' component={PersonalPosts} />
             <Route path='/stats' component={Stats} />
-            <Route path='/singlepost' component={SinglePost} />
+            <Route path='/singlepost/:id' component={SinglePost} />
           </Switch>
         </div>
      </BrowserRouter>

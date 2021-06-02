@@ -17,11 +17,11 @@ const PostCard = () => {
     <Item
         name='singlepost'
         as={LinkR}
-        to='/singlepost'>
+        to='/singlepost/0'>
     <Item.Image src='https://taiwan.sharelife.tw/tw-feat-pres-img/39276/2849100418245409.jpg' />
 
     <Item.Content>
-      <Item.Header as='a'>12 Years a Slave</Item.Header>
+      <Item.Header>12 Years a Slave</Item.Header>
       <Item.Meta>
         <span className='cinema'>Union Square 14</span>
       </Item.Meta>
