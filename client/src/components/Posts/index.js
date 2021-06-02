@@ -1,22 +1,18 @@
-import React from 'react';
-import Post from '../Post/Post';
-import { PostsContainer } from './PostsElements';
+import React from 'react'
+import { Button, Icon, Image, Item, Label } from 'semantic-ui-react'
+import PostCard from '../PostCard'
 
-const Posts = () => {
-    return (
-        <>
-            <PostsContainer>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            </PostsContainer>
-        </>
-    );
-};
+const Posts = () => (
+  <Item.Group divided link>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+      <PostCard/>
+  </Item.Group>
+)
 
-export default Posts;
+export default Posts
