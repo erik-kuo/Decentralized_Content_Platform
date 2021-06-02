@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button, Container, Form, TextArea, Image, Grid } from 'semantic-ui-react'
 
 class WriteAPost extends Component {
 
@@ -8,6 +9,8 @@ class WriteAPost extends Component {
       imagePreviewURL:"",
     };
   }
+
+  fileInputRef = React.createRef();
 
   uploadImage = async (e) => {
     const imageFile = e.target.files[0]
@@ -29,29 +32,54 @@ class WriteAPost extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Write a post.</h1>
-        <p>You can write a post with some images and submmit it here.</p>
-        <div class="ui left corner labeled input">
-          <input type="text" placeholder="Search..."/>
-          <div class="ui left corner label">
-            <i class="asterisk icon"></i>
-          </div>
-        </div>
-        <div className="input-group mb-3">
-          <input type="file" className="input-image form-control" id="image" onChange={this.uploadImage} />
-          <button onClick={this.handleSubmit}>Submit</button>
-        </div>
-        <h2>Image preview: </h2>
-        { this.state.imagePreviewURL ? (
-          <div className='col-4' >{/*style={{float: 'right', padding: '10px'}}*/}
-            <img src={this.state.imagePreviewURL} className="rounded w-100" />
-          </div>
-          ) : (
-            null
-          )
-        }
-      </div>
+      <Grid textAlign='center'>
+        <Grid.Row>
+          <h1>Write a post.</h1>
+        </Grid.Row>
+        <Grid.Row>
+          <p>You can write a post with some images and submmit it here.</p>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Container text>
+            <Form onSubmit={this.onSubmit}>
+              <Form.Field>
+                <h2>Content</h2>
+                <TextArea placeholder='Write your content here...'/>
+              </Form.Field>
+              <Form.Field>
+                <Button
+                  floated='left'
+                  content="Choose Image"
+                  labelPosition="left"
+                  icon="file image"
+                  onClick={() => this.fileInputRef.current.click()}
+                />
+                <input
+                  ref={this.fileInputRef}
+                  type="file"
+                  hidden
+                  onChange={this.uploadImage}
+                />
+              </Form.Field>
+              <Button type='submit' floated='right'>Submit</Button>
+            </Form>
+          </Container>
+        </Grid.Row>
+        
+        <Grid.Row textAlign='left'>
+          <h2>Image preview: </h2>
+        </Grid.Row>
+
+        <Grid.Row>
+          { this.state.imagePreviewURL ? (
+            <Image src={this.state.imagePreviewURL} size='medium'/>
+            ) : (
+              null
+            )
+          }
+        </Grid.Row>
+      </Grid>
     )
   }
 }

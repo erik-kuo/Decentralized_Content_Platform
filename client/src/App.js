@@ -5,12 +5,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Ipfs from 'ipfs-core';
 
 import "./App.css";
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import WriteAPost from './pages/WriteAPost';
 import PersonalPosts from './pages/PersonalPosts';
 import Stats from './pages/Stats';
-import Sidebar from './components/Sidebar';
+// import Sidebar from './components/Sidebar';
+import MyMenu from './components/Menu';
 
 
 class App extends Component {
@@ -49,7 +50,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance }/*, this.runExample*/);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -89,7 +90,7 @@ class App extends Component {
    return (
      <BrowserRouter>
         <div className="App">
-          <Navbar toggle={this.toggle}/>
+          <MyMenu/>
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/new-post'>
@@ -98,7 +99,6 @@ class App extends Component {
             <Route path='/posts' component={PersonalPosts} />
             <Route path='/stats' component={Stats} />
           </Switch>
-          <Sidebar isOpen={this.state.isOpen} toggle={this.toggle}/>
         </div>
      </BrowserRouter>
      
