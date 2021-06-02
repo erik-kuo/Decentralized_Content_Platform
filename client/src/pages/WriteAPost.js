@@ -32,6 +32,16 @@ class WriteAPost extends Component {
       <div>
         <h1>Write a post.</h1>
         <p>You can write a post with some images and submmit it here.</p>
+        <div class="ui left corner labeled input">
+          <input type="text" placeholder="Search..."/>
+          <div class="ui left corner label">
+            <i class="asterisk icon"></i>
+          </div>
+        </div>
+        <div className="input-group mb-3">
+          <input type="file" className="input-image form-control" id="image" onChange={this.uploadImage} />
+          <button onClick={this.handleSubmit}>Submit</button>
+        </div>
         <h2>Image preview: </h2>
         { this.state.imagePreviewURL ? (
           <div className='col-4' >{/*style={{float: 'right', padding: '10px'}}*/}
@@ -41,10 +51,6 @@ class WriteAPost extends Component {
             null
           )
         }
-        <div className="input-group mb-3">
-          <input type="file" className="input-image form-control" id="image" onChange={this.uploadImage} />
-          <button onClick={this.handleSubmit}>Submit</button>
-        </div>
       </div>
     )
   }
