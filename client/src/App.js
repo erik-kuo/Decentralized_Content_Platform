@@ -12,7 +12,7 @@ import PersonalPosts from './pages/PersonalPosts';
 import Stats from './pages/Stats';
 import Sidebar from './components/Sidebar';
 
-/*
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -86,7 +86,7 @@ class App extends Component {
       return <div>Loading Ipfs...</div>;
     }
     
-   return (/*
+   return (
      <BrowserRouter>
         <div className="App">
           <Navbar toggle={this.toggle}/>
@@ -98,21 +98,12 @@ class App extends Component {
             <Route path='/posts' component={PersonalPosts} />
             <Route path='/stats' component={Stats} />
           </Switch>
-          <Sidebar isOpen={this.isOpen} toggle={this.toggle}/>
+          <Sidebar isOpen={this.state.isOpen} toggle={this.toggle}/>
         </div>
      </BrowserRouter>
      
    );
   }
-}
-*/
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Home/>
-    </BrowserRouter>
-  );
 }
 
 export default App;

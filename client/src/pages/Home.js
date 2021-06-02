@@ -7,14 +7,13 @@ const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
-    //console.log(isOpen);
+    console.log("Home", isOpen);
   };
   
   return (
-    <>
-      <Sidebar onClick={isOpen} toggle={toggle}/>
-      <Navbar toggle={toggle}/>
-    </>
+    <div>
+      <h1>View all posts.</h1>
+    </div>
   );
 }
 
