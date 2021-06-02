@@ -6,6 +6,7 @@ class WriteAPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      textStr:"",
       imagePreviewURL:"",
     };
   }
@@ -16,6 +17,10 @@ class WriteAPost extends Component {
     const imageFile = e.target.files[0]
     const imagePreviewURL = URL.createObjectURL(imageFile)
     this.setState({ imagePreviewURL: imagePreviewURL});
+  }
+
+  handleContent = (e, data) => {
+    this.setState({ textStr: data.value })
   }
 
   handleSubmit = async () => {
@@ -45,7 +50,7 @@ class WriteAPost extends Component {
             <Form onSubmit={this.onSubmit}>
               <Form.Field>
                 <h2>Content</h2>
-                <TextArea placeholder='Write your content here...'/>
+                <TextArea placeholder='Write your content here...' onChange={this.handleContent}/>
               </Form.Field>
               <Form.Field>
                 <Button

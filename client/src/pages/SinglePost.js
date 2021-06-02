@@ -1,10 +1,12 @@
 import React from 'react'
 
 
-const SinglePost = () => {
+const SinglePost = (props) => {
+  const { id } = props.match.params;
+  console.log(id);
   return (
     <div>
-      <h1>A Post</h1>
+      <h1>Post no. {id}</h1>
     </div>
   )
 }
