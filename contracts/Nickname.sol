@@ -9,7 +9,11 @@ contract Nickname {
         bytes memory str = new bytes(2 + _data.length * 2);
         str[0] = "0";
         str[1] = "x";
-        for (uint i = 0; i < _data.length; i++) {
+        uint strlen = 8;
+        if(_data.length < strlen) {
+            strlen = _data.length;
+        }
+        for (uint i = 0; i < strlen; i++) {
             str[2+i*2] = alphabet[uint(uint8(_data[i] >> 4))];
             str[3+i*2] = alphabet[uint(uint8(_data[i] & 0x0f))];
         }
