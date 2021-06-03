@@ -7,17 +7,14 @@ class SinglePost extends Component {
 
   constructor(props) {
     super(props);
-    this.id = this.props.match.params.id;
-    this.state = {
-      owner: null,
-      postTime: null,
-      content: null,
-      imageUrls: null,
+    // console.log(this.props);
+    this.state={
+      imgUrls: null,
     }
   }
 
   componentDidMount = async () => {
-    this.getPost();
+    this.getImgs();
   }
 
   getImage = async (cid) => {
@@ -32,66 +29,51 @@ class SinglePost extends Component {
     return imageURL
   }
 
-  formatTimestamp = (_timestamp) => {
-    const time = new Date(_timestamp*1000);
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const year = time.getFullYear();
-    const month = months[time.getMonth()];
-    const date = time.getDate();
-    const timeStr = month + ' ' + date + ', ' + year;
-    return timeStr;
-  }
-
-  getPost = async () => {
-    const { contracts } = this.props;
-    const post = await contracts[0].methods.getPost(this.id).call();
-    let imgURLs = []
-    for (const cid of post.images) {
+  getImgs = async () => {
+    const { imgHashs } = this.props.location.state;
+    // console.log(imgHashs)
+    let imgUrls = []
+    for (const cid of imgHashs) {
       const url = await this.getImage(cid)
-      imgURLs.push(url);
+      imgUrls.push(url);
     }
-    const postTimeStr = this.formatTimestamp(post.postTime)
-    this.setState({
-      owner: post.owner,
-      postTime: postTimeStr,
-      content: post.content,
-      imageUrls: imgURLs,
-    })
-    console.log(this.state)
+    this.setState({ imgUrls })
+    // console.log(this.state)
   }
 
   render () {
+    const { owner, postTime, content, id } = this.props.location.state;
     let imgItems;
-    if (!this.state.imageUrls) {
+    if (!this.state.imgUrls) {
       imgItems =<Dimmer active>
                   <Loader size='mini'>Loading</Loader>
                 </Dimmer>;
     } else {
       imgItems = <Image.Group>
-        {this.state.imageUrls.map((src, idx) => <Image src={src} key={idx}/>)}
+        {this.state.imgUrls.map((src, idx) => <Image src={src} key={idx}/>)}
       </Image.Group>
     }
     return (
       <Container text>
         <Grid textAlign='left'>
           <Grid.Row>
-            <h1>Post no. {this.id}</h1>
+            <h1>Post no. {id}</h1>
           </Grid.Row>
           <Grid.Row>
             <Item.Group>
               <Item>
                 <Item.Image src='https://taiwan.sharelife.tw/tw-feat-pres-img/39276/2849100418245409.jpg'/>
                 <Item.Content>
-                  <Item.Header> {this.state.owner} </Item.Header>
+                  <Item.Header> {owner} </Item.Header>
                   <Item.Meta>
-                    <span className='cinema'>{this.state.postTime}</span>
+                    <span className='cinema'>{postTime}</span>
                   </Item.Meta>
                 </Item.Content>
               </Item>
             </Item.Group>
           </Grid.Row>
           <Grid.Row>
-            <p> {this.state.content} </p>
+            <p> {content} </p>
           </Grid.Row>
           <Grid.Row>
             {imgItems}

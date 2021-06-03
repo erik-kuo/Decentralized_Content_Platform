@@ -11,21 +11,20 @@ const PersonalPosts = (props) => {
   return (
     <Container textAlign='left'>
       <Grid relaxed>
-      <Grid.Row>
-
+        <Grid.Row>
           <Ref innerRef={contextRef}>
-          <Rail width={4}>
-          <Sticky context={contextRef} offset={100}>
-            <Profile/>
-          </Sticky>
-          </Rail>
+            <Rail width={4}>
+              <Sticky context={contextRef} offset={500}>
+                <Profile/>
+              </Sticky>
+            </Rail>
           </Ref>
 
-        <Grid.Column floated='right' width={12}>
-          <Posts/>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+          <Grid.Column floated='right' width={12}>
+            <Posts {...props}/>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </Container>
   );
 }

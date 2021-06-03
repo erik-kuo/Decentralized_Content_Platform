@@ -115,7 +115,7 @@ class App extends Component {
                 render={(props)=><Stats web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
               />
               <Route path='/singlepost/:id'
-                render={(props)=><SinglePost web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+                render={(props)=><SinglePost ipfs={ipfs} {...props}/>}
               />
             </Switch>
           </Container>
