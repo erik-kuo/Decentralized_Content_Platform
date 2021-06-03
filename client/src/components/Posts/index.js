@@ -21,8 +21,9 @@ class Posts extends Component {
     let Posts = [];
     for (let idx=0; idx < totalPostNum; idx++) {
       const post = await contracts[0].methods.getPost(idx).call();
+      const nickname = await contracts[1].methods.getNickname(post.owner).call();
       const postInfo = {
-        owner: post.owner,
+        owner: nickname,
         postTime: post.postTime,
         content: post.content,
         imgHashs: post.images,
