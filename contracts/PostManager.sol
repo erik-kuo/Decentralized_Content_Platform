@@ -6,7 +6,7 @@ contract PostManager {
         uint timestamp;
         address owner;
         string text;
-        string[] imageUrl;
+        string[] imageHash;
     }
     Post[] posts;
     
@@ -22,7 +22,7 @@ contract PostManager {
         owner = posts[_id].owner;
         postTime = posts[_id].timestamp;
         content = posts[_id].text;
-        images = posts[_id].imageUrl;
+        images = posts[_id].imageHash;
     }
     
     function createPost(string memory _content, string[] memory _images) public {
@@ -30,9 +30,9 @@ contract PostManager {
         emit NewPost(msg.sender, id);
     }
     
-    constructor() internal {
+    constructor() public {
         string[] memory images = new string[](1);
-        images[0] = "https://upload.cc/i1/2021/05/31/0vubq6.png";
+        images[0] = "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm";
         createPost("Hello, world", images);
     }
 }

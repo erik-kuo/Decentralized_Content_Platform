@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Stats = () => {
+const Stats = (props) => {
   return (
     <div>
       <h1>Status</h1>

@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Posts from '../components/Posts';
 import Profile from '../components/Profile/Profile';
 
-const PersonalPosts = () => {
+const PersonalPosts = (props) => {
 
   const contextRef = createRef()
 

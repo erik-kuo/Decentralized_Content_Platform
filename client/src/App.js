@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import PostMgrContract from "./contracts/PostManager.json";
+import NicknameContract from './contracts/Nickname.json';
 import getWeb3 from "./getWeb3";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Ipfs from 'ipfs-core';
@@ -23,16 +24,16 @@ class App extends Component {
       storageValue:0,
       web3: null,
       accounts: null,
-      contract: null,
+      contracts: [],
       ipfs: null,
       isOpen: false
     };
   }
 
-  toggle = async () => {
-    this.setState({ isOpen: !(this.state.isOpen) });
-    this.state.isOpen? console.log('Open'): console.log('Close');
-  }
+  // toggle = async () => {
+  //   this.setState({ isOpen: !(this.state.isOpen) });
+  //   this.state.isOpen? console.log('Open'): console.log('Close');
+  // }
 
   componentDidMount = async () => {
     try {
@@ -44,15 +45,21 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address,
+      const postMgrDeployedNetwork = PostMgrContract.networks[networkId];
+      const postMgrInstance = new web3.eth.Contract(
+        PostMgrContract.abi,
+        postMgrDeployedNetwork && postMgrDeployedNetwork.address,
+      );
+      const nicknameDeployedNetwork = NicknameContract.networks[networkId];
+      const nicknameInstance = new web3.eth.Contract(
+        NicknameContract.abi,
+        nicknameDeployedNetwork && nicknameDeployedNetwork.address,
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }/*, this.runExample*/);
+      const contractList = [postMgrInstance, nicknameInstance]
+      this.setState({ web3, accounts, contracts: contractList }/*, this.runExample*/);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -67,21 +74,21 @@ class App extends Component {
     }
   };
 
-  runExample = async () => {
-    const { accounts, contract } = this.state;
+  // runExample = async () => {
+  //   const { accounts, contract } = this.state;
 
-    // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
+  //   // Stores a given value, 5 by default.
+  //   await contract.methods.set(5).send({ from: accounts[0] });
 
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
+  //   // Get the value from the contract to prove it worked.
+  //   const response = await contract.methods.get().call();
 
-    // Update state with the result.
-    this.setState({ storageValue: response });
-  };
+  //   // Update state with the result.
+  //   this.setState({ storageValue: response });
+  // };
 
   render() {
-    const { storageValue, web3, accounts, contract, ipfs, isOpen} = this.state;
+    const { web3, accounts, contracts, ipfs, isOpen} = this.state;
     if (!web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
@@ -95,13 +102,21 @@ class App extends Component {
           <MyMenu/>
           <Container style={{ marginTop: '20px' }}>
             <Switch>
-              <Route path='/' exact component={Home} />
-              <Route path='/new-post'>
-                <WriteAPost web3={web3} accounts={accounts} contract={contract} ipfs={ipfs} />
-              </Route>
-              <Route path='/posts' component={PersonalPosts} />
-              <Route path='/stats' component={Stats} />
-              <Route path='/singlepost/:id' component={SinglePost} />
+              <Route path='/' exact
+                render={(props)=><Home web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+              />
+              <Route path='/new-post'
+                render={(props)=><WriteAPost web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+              />
+              <Route path='/posts'
+                render={(props)=><PersonalPosts web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+              />
+              <Route path='/stats'
+                render={(props)=><Stats web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+              />
+              <Route path='/singlepost/:id'
+                render={(props)=><SinglePost web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
+              />
             </Switch>
           </Container>
         </div>

@@ -1,5 +1,7 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var PostManager = artifacts.require("./PostManager.sol");
+var Nickname = artifacts.require("./Nickname.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+  deployer.deploy(PostManager);
+  deployer.deploy(Nickname);
 };

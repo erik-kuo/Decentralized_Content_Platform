@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Posts from '../components/Posts';
 import Sidebar from '../components/Sidebar';
 
-const Home = () => {  
+const Home = (props) => {  
   return (
     <Container textAlign='left'>
         <Posts/>
