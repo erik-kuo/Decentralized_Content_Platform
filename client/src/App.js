@@ -9,7 +9,7 @@ import "./App.css";
 import Home from './pages/Home';
 import WriteAPost from './pages/WriteAPost';
 import PersonalPosts from './pages/PersonalPosts';
-import Stats from './pages/Stats';
+import Stats from './pages/PersonalStats';
 // import Sidebar from './components/Sidebar';
 import MyMenu from './components/Menu';
 import SinglePost from "./pages/SinglePost";

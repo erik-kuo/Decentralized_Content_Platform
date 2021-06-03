@@ -2,7 +2,7 @@ import React, {createRef} from 'react'
 import { Container, Grid, Sticky, Ref, Rail } from 'semantic-ui-react';
 import Navbar from '../components/Navbar';
 import Posts from '../components/Posts';
-import Profile from '../components/Profile/Profile';
+import Profile from '../components/Profile';
 
 const PersonalPosts = () => {
 
