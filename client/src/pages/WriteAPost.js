@@ -33,6 +33,9 @@ class WriteAPost extends Component {
     /* Do stuff with contract */
     // save text string to contract
     // save image ipfs path
+    const { accounts, contracts } = this.props;
+    contracts[0].methods.createPost(this.state.textStr, [path]).send({from: accounts[0]});
+    this.setState({ textStr:"", imagePreviewURL:"" })
   }
 
   render() {
@@ -47,10 +50,10 @@ class WriteAPost extends Component {
 
         <Grid.Row>
           <Container text>
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
               <Form.Field>
                 <h2>Content</h2>
-                <TextArea placeholder='Write your content here...' onChange={this.handleContent}/>
+                <TextArea placeholder='Write your content here...' value={this.state.textStr} onChange={this.handleContent}/>
               </Form.Field>
               <Form.Field>
                 <Button
@@ -67,7 +70,7 @@ class WriteAPost extends Component {
                   onChange={this.uploadImage}
                 />
               </Form.Field>
-              <Button type='submit' floated='right'>Submit</Button>
+              <Button type='submit' floated='right' onClick={this.handleSubmit}>Submit</Button>
             </Form>
           </Container>
         </Grid.Row>
