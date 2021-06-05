@@ -100,7 +100,7 @@ class App extends Component {
      <BrowserRouter>
         <div className="App">
           <MyMenu/>
-          <Container style={{ marginTop: '20px' }}>
+          <Container style={{ marginTop: '7em' }}>
             <Switch>
               <Route path='/' exact
                 render={(props)=><Home web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
