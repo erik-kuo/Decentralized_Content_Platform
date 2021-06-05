@@ -14,7 +14,7 @@ const PersonalPosts = (props) => {
         <Grid.Row>
           <Ref innerRef={contextRef}>
             <Rail width={4}>
-              <Sticky context={contextRef} offset={500}>
+              <Sticky context={contextRef} offset={100}>
                 <Profile/>
               </Sticky>
             </Rail>
