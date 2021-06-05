@@ -47,7 +47,7 @@ class WriteAPost extends Component {
 
         <Grid.Row>
           <Container text>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <h2>Content</h2>
                 <TextArea placeholder='Write your content here...' onChange={this.handleContent}/>
