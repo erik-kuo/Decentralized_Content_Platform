@@ -20,6 +20,22 @@ const Stats = () => {
         <Divider section />
         <Header as='h3'>Post 4</Header>
           <Stat/>
+          <Divider section />
+        <Header as='h3'>Post 4</Header>
+          <Stat/>
+          <Divider section />
+        <Header as='h3'>Post 4</Header>
+          <Stat/>
+          <Divider section />
+        <Header as='h3'>Post 4</Header>
+          <Stat/>
+          <Divider section />
+        <Header as='h3'>Post 4</Header>
+          <Stat/>
+          <Divider section />
+        <Header as='h3'>Post 4</Header>
+          <Stat/>
+          
       </Segment>
   
     )

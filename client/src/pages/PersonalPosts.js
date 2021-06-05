@@ -1,12 +1,10 @@
-import React, {createRef} from 'react'
+import React, {contextRef} from 'react'
 import { Container, Grid, Sticky, Ref, Rail } from 'semantic-ui-react';
-import Navbar from '../components/Navbar';
 import Posts from '../components/Posts';
 import Profile from '../components/Profile';
 
 const PersonalPosts = (props) => {
 
-  const contextRef = createRef()
 
   return (
     <Container textAlign='left'>
@@ -14,7 +12,7 @@ const PersonalPosts = (props) => {
         <Grid.Row>
           <Ref innerRef={contextRef}>
             <Rail width={4}>
-              <Sticky context={contextRef} offset={500}>
+              <Sticky context={contextRef} offset={100}>
                 <Profile/>
               </Sticky>
             </Rail>
