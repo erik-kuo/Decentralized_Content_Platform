@@ -11,9 +11,9 @@ export default class MyMenu extends Component {
     const { activeItem } = this.state
 
     return (
-      <Sticky>
-        <Segment inverted>
-          <Menu inverted pointing secondary>
+      // <Sticky>
+        // <Segment inverted>
+          <Menu inverted pointing secondary fixed='top'>
             <Container>
               <Menu.Item
                 header
@@ -59,8 +59,8 @@ export default class MyMenu extends Component {
               </Menu.Menu>
             </Container>
           </Menu>
-        </Segment>
-      </Sticky> 
+        // </Segment>
+      // </Sticky> 
     )
   }
 }
