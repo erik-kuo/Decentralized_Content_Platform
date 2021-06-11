@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PostMgrContract from "./contracts/PostManager.json";
 import NicknameContract from './contracts/Nickname.json';
+import CommentMgrContract from './contracts/CommentManager.json';
 import getWeb3 from "./getWeb3";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Ipfs from 'ipfs-core';
@@ -55,10 +56,15 @@ class App extends Component {
         NicknameContract.abi,
         nicknameDeployedNetwork && nicknameDeployedNetwork.address,
       );
+      const CommentMgrDeployedNetwork = CommentMgrContract.networks[networkId];
+      const commentMgrInstance = new web3.eth.Contract(
+        CommentMgrContract.abi,
+        CommentMgrDeployedNetwork && CommentMgrDeployedNetwork.address,
+      );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      const contractList = [postMgrInstance, nicknameInstance]
+      const contractList = [postMgrInstance, nicknameInstance, commentMgrInstance]
       this.setState({ web3, accounts, contracts: contractList }/*, this.runExample*/);
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -115,7 +121,7 @@ class App extends Component {
                 render={(props)=><Stats web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
               />
               <Route path='/singlepost/:id'
-                render={(props)=><SinglePost ipfs={ipfs} {...props}/>}
+                render={(props)=><SinglePost web3={web3} accounts={accounts} contracts={contracts} ipfs={ipfs} {...props}/>}
               />
             </Switch>
           </Container>

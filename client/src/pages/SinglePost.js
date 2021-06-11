@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Grid, Item, Image, Dimmer, Loader } from 'semantic-ui-react';
+import { Container, Grid, Item, Image, Dimmer, Loader, Divider } from 'semantic-ui-react';
 import uint8ArrayConcat from 'uint8arrays/concat';
+
+import Comments from '../components/Comments';
 
 
 class SinglePost extends Component {
@@ -79,6 +81,8 @@ class SinglePost extends Component {
             {imgItems}
           </Grid.Row>
         </Grid>
+        <Divider/>
+        <Comments accounts={this.props.accounts} contracts={this.props.contracts} id={id}/>
       </Container>
     )
   }
