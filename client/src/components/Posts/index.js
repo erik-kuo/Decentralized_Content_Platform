@@ -17,6 +17,9 @@ class Posts extends Component {
 
   getPosts = async () => {
     const {contracts} = this.props;
+    if (this.props.personal) {
+      console.log('personal!')
+    }
     const totalPostNum = await this.props.contracts[0].methods.getPostCount().call();
     let Posts = [];
     for (let idx=0; idx < totalPostNum; idx++) {
@@ -33,6 +36,8 @@ class Posts extends Component {
     }
     this.setState({Posts});
   }
+
+  
   
   render () {
     if (!this.state.Posts.length) {

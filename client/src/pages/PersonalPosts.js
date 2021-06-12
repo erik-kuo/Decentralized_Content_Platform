@@ -31,7 +31,7 @@ const PersonalPosts = (props) => {
 
         <Grid.Column floated='right' width={8}>
           <Header>Your Posts</Header>
-          <Posts {...props}/>
+          <Posts personal {...props}/>
         </Grid.Column>
         <Grid.Column floated='right' width={4}>
           <Header>Set your Nickname</Header>
