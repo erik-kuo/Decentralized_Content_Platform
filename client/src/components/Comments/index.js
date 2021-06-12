@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Item, Segment } from 'semantic-ui-react'
-
-import WriteAComment from './WriteAComment'
+import { Segment, Comment, Header, Form, Button } from 'semantic-ui-react'
 
 const formatTimestamp = (_timestamp) => {
   const time = new Date(_timestamp*1000);
@@ -9,12 +7,28 @@ const formatTimestamp = (_timestamp) => {
   const year = time.getFullYear();
   const month = months[time.getMonth()];
   const date = time.getDate();
-  const timeStr = month + ' ' + date + ', ' + year;
+  const hour = time.getHours();
+  const minute = time.getMinutes();
+  const timeStr = month + ' ' + date + ', ' + year + ' at ' + hour + ':' + minute;
   return timeStr;
 }
 
 const Comments = (props) => {
-  const [commentList, setCommentList] = useState([]);
+  const [content, setContent] = useState(
+    <Segment>
+      There isn't any comment yet. Be the first one!
+    </Segment>);
+  const [commentStr, setCommentStr] = useState('');
+
+  const handleClick = async () => {
+    const { accounts, contracts } = props;
+    contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+    setCommentStr('');
+  }
+
+  const handleInputChange = (e, data) => {
+    setCommentStr(data.value);
+  }
 
   const getCommentList = async() => {
     const { contracts } = props;
@@ -31,37 +45,43 @@ const Comments = (props) => {
         }
         _lst.push(commentInfo);
       }
-      setCommentList([..._lst]);
+      setContent(_lst.map((comment) =>
+      <Comment>
+        <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+        <Comment.Content>
+          <Comment.Author as='a'>{comment.owner}</Comment.Author>
+          <Comment.Metadata>
+            {comment.postTime}
+          </Comment.Metadata>
+          <Comment.Text>{comment.content}</Comment.Text>
+          <Comment.Actions>
+            <Comment.Action>Reply</Comment.Action>
+          </Comment.Actions>
+        </Comment.Content>
+      </Comment>));
     });
   }
 
   useEffect( () =>{getCommentList()}, []);
 
-  let content;
-  if (commentList.length == 0) {
-    content =
-    <Segment>
-      There isn't any comment yet. Be the first one!
-    </Segment>;
-    
-  } else {
-    console.log(commentList[0]);
-    content =
-    <Item.Group divided>
-      {commentList.map((comment) => <Item>
-        <Item.Content>
-          <Item.Header>{ comment.owner }</Item.Header>
-          <Item.Description>{ comment.content }</Item.Description>
-          <Item.Extra>{ formatTimestamp(comment.postTime) }</Item.Extra>
-        </Item.Content>
-      </Item>)}
-    </Item.Group>;
-  }
+  const { contracts } = props;
+  contracts[2].events.NewComment({filter: {postId: props.id}, fromBlock: 0, toBlock: 'latest'}, (error, event) => {
+    getCommentList();
+  })
+
   return (
-    <React.Fragment>
-      <WriteAComment {...props}/>
+    <Comment.Group minimal>
+      <Header as='h3' dividing>
+        Comments
+      </Header>
+
       {content}
-    </React.Fragment>
+
+      <Form reply>
+        <Form.TextArea placeholder='Write your comment here...' onChange={handleInputChange} value={commentStr}/>
+        <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={handleClick}/>
+      </Form>
+    </Comment.Group>
     )
 }
 

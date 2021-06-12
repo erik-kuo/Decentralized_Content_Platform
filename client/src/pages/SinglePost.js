@@ -56,7 +56,7 @@ class SinglePost extends Component {
       </Image.Group>
     }
     return (
-      <Container text>
+      <Container text textAlign='left'>
         <Grid textAlign='left'>
           <Grid.Row>
             <h1>Post no. {id}</h1>
