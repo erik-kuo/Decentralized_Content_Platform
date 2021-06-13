@@ -36,7 +36,7 @@ const Comments = (props) => {
       const idList = events.map(event => event.returnValues.commentId);
       let _lst = [];
       for (let idx=0; idx < idList.length; idx++) {
-        const comment = await contracts[2].methods.getComment(idx).call();
+        const comment = await contracts[2].methods.getComment(idList[idx]).call();
         const nickname = await contracts[1].methods.getNickname(comment.owner).call();
         const commentInfo = {
           owner : nickname,
