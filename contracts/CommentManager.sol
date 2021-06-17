@@ -9,6 +9,9 @@ contract CommentManager {
     }
     Comment[] comments;
     
+    uint commentCooldown = 5 seconds;
+    mapping(address => uint) nextCommentTime;
+    
     event NewComment(uint indexed postId, address indexed owner, uint commentId);
     
     function getCommentCount() view external returns(uint) {
@@ -35,7 +38,11 @@ contract CommentManager {
     }
     
     function createComment(uint _postId, string calldata _content) external {
+        require(nextCommentTime[msg.sender] <= now);
+        
         uint id = comments.push(Comment(_postId, msg.sender, now, _content)) - 1;
+        nextCommentTime[msg.sender] = now + commentCooldown;
+        
         emit NewComment(_postId, msg.sender, id);
     }
 }
