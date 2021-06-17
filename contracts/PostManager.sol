@@ -11,6 +11,9 @@ contract PostManager {
     }
     Post[] posts;
     
+    uint postCooldown = 30 seconds;
+    mapping(address => uint) nextPostTime;
+    
     event NewPost(address indexed owner, uint postId);
     
     function getPostCount() view public returns(uint) {
@@ -28,7 +31,11 @@ contract PostManager {
     }
     
     function createPost(string memory _content, string[] memory _images, uint _category) public {
+        require(nextPostTime[msg.sender] <= now);
+        
         uint id = posts.push(Post(now, msg.sender, _content, _images, _category)) - 1;
+        nextPostTime[msg.sender] = now + postCooldown;
+        
         emit NewPost(msg.sender, id);
     }
     
