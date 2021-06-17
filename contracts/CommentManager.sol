@@ -15,6 +15,16 @@ contract CommentManager {
         return comments.length;
     }
     
+    function getCommentCountByPost(uint _postId) view external returns(uint) {
+        uint result = 0;
+        for(uint id=0; id<comments.length; id++) {
+            if(comments[id].postId == _postId) {
+                result++;
+            }
+        }
+        return result;
+    }
+    
     function getComment(uint _id) view external returns(uint postId, address owner, uint postTime, string memory content) {
         require(_id < comments.length);
         
