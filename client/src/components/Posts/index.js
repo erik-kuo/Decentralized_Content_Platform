@@ -15,33 +15,90 @@ class Posts extends Component {
     this.getPosts();
   }
 
+  componentDidUpdate = async (prevProps) => {
+    if (prevProps.withTag !== this.props.withTag) {
+      this.getPosts();
+    }
+  }
+
   getPosts = async () => {
     const {contracts, accounts} = this.props;
-    
-    if (this.props.personal) {
-      console.log('personal!');
-      contracts[0].getPastEvents('NewPost', {filter: {owner: accounts[0]}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
-        console.log(events);
-        const idList = events.map(event => event.returnValues.postId);
-        console.log(idList);
-        let Posts = []
-        for (let idx = 0; idx < idList.length; idx++) {
-          const post = await contracts[0].methods.getPost(idList[idx]).call();
-          console.log(post)
+
+    if (this.props.withTag) {
+      console.log('withTag');
+      const cat = this.props.withTag;
+      console.log('tag', cat);
+
+      if (cat == 6) {
+        const totalPostNum = await this.props.contracts[0].methods.getPostCount().call();
+        let Posts = [];
+        for (let idx=0; idx < totalPostNum; idx++) {
+          const post = await contracts[0].methods.getPost(idx).call();
           const nickname = await contracts[1].methods.getNickname(post.owner).call();
           const postInfo = {
             owner: nickname,
             postTime: post.postTime,
             content: post.content,
             imgHashs: post.images,
-            id: idList[idx]
+            id: idx,
+            category: post.category
+          }
+          Posts.push(postInfo);
+        }
+      this.setState({Posts});
+      }
+
+      else {
+
+        contracts[0].getPastEvents('NewPost', {filter: {category: cat}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
+
+          const idList = events.map(event => event.returnValues.postId);
+
+          let Posts = []
+          for (let idx = 0; idx < idList.length; idx++) {
+            const post = await contracts[0].methods.getPost(idList[idx]).call();
+
+            const nickname = await contracts[1].methods.getNickname(post.owner).call();
+            const postInfo = {
+              owner: nickname,
+              postTime: post.postTime,
+              content: post.content,
+              imgHashs: post.images,
+              id: idList[idx],
+              category: post.category
+            }
+          Posts.push(postInfo);
+          }
+        this.setState({Posts});
+        })
+
+      }
+    }
+    
+    if (this.props.personal) {
+
+      contracts[0].getPastEvents('NewPost', {filter: {owner: accounts[0]}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
+        const idList = events.map(event => event.returnValues.postId);
+        let Posts = []
+        for (let idx = 0; idx < idList.length; idx++) {
+          const post = await contracts[0].methods.getPost(idList[idx]).call();
+          const nickname = await contracts[1].methods.getNickname(post.owner).call();
+          const postInfo = {
+            owner: nickname,
+            postTime: post.postTime,
+            content: post.content,
+            imgHashs: post.images,
+            id: idList[idx],
+            category: post.category
           }
         Posts.push(postInfo);
         }
       this.setState({Posts});
       })
     }
+    /*
     else {
+      console.log('notag or personal');
       const totalPostNum = await this.props.contracts[0].methods.getPostCount().call();
       let Posts = [];
       for (let idx=0; idx < totalPostNum; idx++) {
@@ -52,29 +109,28 @@ class Posts extends Component {
           postTime: post.postTime,
           content: post.content,
           imgHashs: post.images,
-          id: idx
+          id: idx,
+          category: post.category
         }
         Posts.push(postInfo);
       }
-      console.log(Posts);
       this.setState({Posts});
-    }
+    }*/
   }
 
   
   
   render () {
+
     if (!this.state.Posts.length) {
       if (this.props.personal) {
         return(
-          <p> Write your first post! </p>
+          <p>Write your first post!</p>
         )
       }
       else {
         return(
-          <Dimmer active>
-            <Loader size='mini'>Loading</Loader>
-          </Dimmer>
+          <p>No posts yet...</p>
         )
       }
     } else {

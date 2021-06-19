@@ -20,6 +20,7 @@ class PostCard extends Component {
     }
   }
 
+
 componentDidMount = async () => {
   this.getImage(this.props.post.imgHashs[0]);
 }
@@ -47,6 +48,10 @@ componentDidMount = async () => {
   }
   
   render() {
+
+    const tag = ['Others', 'Sport', 'Movie', 'Technology', 'Art', 'Literature'];
+    
+
     return (
       <Item
         name='singlepost'
@@ -58,6 +63,7 @@ componentDidMount = async () => {
             content: this.props.post.content,
             imgHashs: this.props.post.imgHashs,
             id: this.props.post.id,
+            attribute: this.props.post.category
           },
         }}
       >
@@ -70,8 +76,7 @@ componentDidMount = async () => {
           </Item.Meta>
           <Item.Description>{this.props.post.content.slice(0,100)}</Item.Description>
           <Item.Extra>
-            <Label>IMAX</Label>
-            <Label icon='globe' content='Additional Languages' />
+            <Label>{tag[this.props.post.category]}</Label>
           </Item.Extra>
         </Item.Content>
       </Item>

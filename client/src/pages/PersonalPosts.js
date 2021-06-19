@@ -1,7 +1,8 @@
-import React, {contextRef, useState} from 'react'
-import { Container, Grid, Sticky, Ref, Rail, Input, Header, Button } from 'semantic-ui-react';
+import React, {Component, createRef, useState} from 'react'
+import { Segment, Container, Grid, Sticky, Ref, Rail, Input, Header, Button } from 'semantic-ui-react';
 import Posts from '../components/Posts';
 import Profile from '../components/Profile';
+
 
 const PersonalPosts = (props) => {
 
@@ -20,17 +21,16 @@ const PersonalPosts = (props) => {
     <Container textAlign='left'>
       <Grid relaxed>
         <Grid.Column width={4}>
-          <Ref innerRef={contextRef}>
-            <Rail>
-              <Sticky context={contextRef} offset={100}>
-                <Profile/>
+          <Ref innerRef={createRef}>
+              <Sticky offset={100}>
+                <Profile contracts={props.contracts} accounts={props.accounts}/>
+                
               </Sticky>
-            </Rail>
           </Ref>
         </Grid.Column>
 
         <Grid.Column floated='right' width={8}>
-          <Header>Your Posts</Header>
+          <Header as='h2'>All previous posts</Header>
           <Posts personal {...props}/>
         </Grid.Column>
         <Grid.Column floated='right' width={4}>
@@ -42,4 +42,4 @@ const PersonalPosts = (props) => {
   );
 }
 
-export default PersonalPosts
+export default PersonalPosts;

@@ -64,7 +64,7 @@ class SinglePost extends Component {
           <Grid.Row>
             <Item.Group>
               <Item>
-                <Item.Image src='https://taiwan.sharelife.tw/tw-feat-pres-img/39276/2849100418245409.jpg'/>
+                <Image src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' circular centered/>
                 <Item.Content>
                   <Item.Header> {owner} </Item.Header>
                   <Item.Meta>

@@ -8,6 +8,7 @@ class WriteAPost extends Component {
     this.state = {
       textStr:"",
       imagePreviewURL:"",
+      value:"0"
     };
   }
 
@@ -33,61 +34,103 @@ class WriteAPost extends Component {
     /* Do stuff with contract */
     // save text string to contract
     // save image ipfs path
+
+    // attribute
+    const attribute = parseInt(this.state.value);
+
     const { accounts, contracts } = this.props;
-    contracts[0].methods.createPost(this.state.textStr, [path]).send({from: accounts[0]});
+    contracts[0].methods.createPost(this.state.textStr, [path], attribute).send({from: accounts[0]});
     this.setState({ textStr:"", imagePreviewURL:"" })
   }
 
+  handleAttribute = (e, { value }) => this.setState({ value })
+
   render() {
+    const { value } = this.state
     return (
-      <Grid textAlign='center'>
-        <Grid.Row>
-          <h1>Write a post.</h1>
-        </Grid.Row>
-        <Grid.Row>
-          <p>You can write a post with some images and submmit it here.</p>
-        </Grid.Row>
+      <Container>
+        <Grid>
+          <Grid.Row>
+            <Container text textAlign='left'>
+              <Form width>
+                <Form.Field>
+                  <h2>What's on your mind?</h2>
+                  <p>You can write a post with an image and submit it here.</p>
+                  <TextArea placeholder='Write your content here...' value={this.state.textStr} onChange={this.handleContent}/>
+                </Form.Field>
 
-        <Grid.Row>
-          <Container text>
-            <Form>
-              <Form.Field>
-                <h2>Content</h2>
-                <TextArea placeholder='Write your content here...' value={this.state.textStr} onChange={this.handleContent}/>
-              </Form.Field>
-              <Form.Field>
-                <Button
-                  floated='left'
-                  content="Choose Image"
-                  labelPosition="left"
-                  icon="file image"
-                  onClick={() => this.fileInputRef.current.click()}
-                />
-                <input
-                  ref={this.fileInputRef}
-                  type="file"
-                  hidden
-                  onChange={this.uploadImage}
-                />
-              </Form.Field>
-              <Button type='submit' floated='right' onClick={this.handleSubmit}>Submit</Button>
-            </Form>
-          </Container>
-        </Grid.Row>
-        
-        <Grid.Row textAlign='left'>
-          <h2>Image preview: </h2>
-        </Grid.Row>
+                <Form.Group inline>
+                  <label>Add a tag for your post:</label>
+                  <Form.Radio
+                    label='Sport'
+                    value='1'
+                    checked={value === '1'}
+                    onChange={this.handleAttribute}
+                  />
+                  <Form.Radio
+                    label='Movie'
+                    value='2'
+                    checked={value === '2'}
+                    onChange={this.handleAttribute}
+                  />
+                  <Form.Radio
+                    label='Technology'
+                    value='3'
+                    checked={value === '3'}
+                    onChange={this.handleAttribute}
+                  />
+                  <Form.Radio
+                    label='Art'
+                    value='4'
+                    checked={value === '4'}
+                    onChange={this.handleAttribute}
+                  />
+                  <Form.Radio
+                    label='Literature'
+                    value='5'
+                    checked={value === '5'}
+                    onChange={this.handleAttribute}
+                  />
+                  <Form.Radio
+                    label='Others'
+                    value='0'
+                    checked={value === '0'}
+                    onChange={this.handleAttribute}
+                  />
+                  </Form.Group>
 
-        <Grid.Row>
-          { this.state.imagePreviewURL ? (
-            <Image src={this.state.imagePreviewURL} size='medium'/>
-            ) : (
-              null
-            )
-          }
-        </Grid.Row>
-      </Grid>
+                  <Form.Group>
+                <Form.Field>
+                  <Button
+                    floated='left'
+                    content="Choose Image"
+                    labelPosition="left"
+                    icon="file image"
+                    onClick={() => this.fileInputRef.current.click()}
+                  />
+                  <input
+                    ref={this.fileInputRef}
+                    type="file"
+                    hidden
+                    onChange={this.uploadImage}
+                  />
+                </Form.Field>
+                <Button type='submit' floated='right' onClick={this.handleSubmit}>Submit</Button>
+                </Form.Group>
+              </Form>
+            </Container>
+          </Grid.Row>
+          
+          <Grid.Row>
+            { this.state.imagePreviewURL ? (
+              <Image src={this.state.imagePreviewURL} size='medium' centered/>
+              ) : (
+                null
+              )
+            }
+          </Grid.Row>
+        </Grid>
+      </Container>
     )
   }
 }
