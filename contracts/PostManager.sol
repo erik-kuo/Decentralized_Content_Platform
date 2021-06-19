@@ -20,6 +20,12 @@ contract PostManager {
         return posts.length;
     }
     
+    function _getPostOwner(uint _id) view internal returns(address payable) {
+        require(_id < posts.length);
+        
+        return  address(uint160(posts[_id].owner));
+    }
+    
     function getPost(uint _id) view external returns(address owner, uint postTime, string memory content, string[] memory images, uint category) {
         require(_id < posts.length);
         
