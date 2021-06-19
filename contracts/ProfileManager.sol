@@ -8,7 +8,7 @@ contract ProfileManager {
     }
     mapping(address => Profile) profiles;
     
-    string[] defaultImages = [ "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm" ];
+    string[] defaultImages = [ "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm", "QmcZcJ1QW4DejrPJrJndqkAUTp6mdWwhqYVRzJ56gHnJWW", "QmRMEkg2Bp66cEHg9DJszSCxBMqdhGpu2n8pK9PtzJZFW9", "QmZ1gW17xeGWUEj22moAZAvKDtAJ8C1ArDN7Dh929HnGPv", "QmavbPY8xHLmfZ11aCRsT4PDm8QKens5tSjPuwGeH6dime", "QmfK18P379oz4CFno34eXVH8bwzKqSAADjzoYejXowvk56" ];
     
     function _getDefaultNickname(address _user) private pure returns(string memory) {
         bytes memory addr = abi.encodePacked(_user);
