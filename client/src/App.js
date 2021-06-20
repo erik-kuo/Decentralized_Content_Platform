@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PostMgrContract from "./contracts/PostManager.json";
-import NicknameContract from './contracts/Nickname.json';
-import CommentMgrContract from './contracts/CommentManager.json';
+import ProfileMgrContract from './contracts/ProfileManager.json';
+import CommentMgrContract from './contracts/CommentedPostManager.json';
 import getWeb3 from "./getWeb3";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Ipfs from 'ipfs-core';
@@ -51,10 +51,10 @@ class App extends Component {
         PostMgrContract.abi,
         postMgrDeployedNetwork && postMgrDeployedNetwork.address,
       );
-      const nicknameDeployedNetwork = NicknameContract.networks[networkId];
-      const nicknameInstance = new web3.eth.Contract(
-        NicknameContract.abi,
-        nicknameDeployedNetwork && nicknameDeployedNetwork.address,
+      const profileMgrDeployedNetwork = ProfileMgrContract.networks[networkId];
+      const profileMgrInstance = new web3.eth.Contract(
+        ProfileMgrContract.abi,
+        profileMgrDeployedNetwork && profileMgrDeployedNetwork.address,
       );
       const CommentMgrDeployedNetwork = CommentMgrContract.networks[networkId];
       const commentMgrInstance = new web3.eth.Contract(
@@ -64,7 +64,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      const contractList = [postMgrInstance, nicknameInstance, commentMgrInstance]
+      const contractList = [postMgrInstance, profileMgrInstance, commentMgrInstance]
       this.setState({ web3, accounts, contracts: contractList }/*, this.runExample*/);
     } catch (error) {
       // Catch any errors for any of the above operations.

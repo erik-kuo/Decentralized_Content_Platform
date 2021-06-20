@@ -48,6 +48,6 @@ contract PostManager {
     constructor() public {
         string[] memory images = new string[](1);
         images[0] = "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm";
-        createPost("Hello, world", images, 0);
+        createPost("Hello, world", images, 6);
     }
 }

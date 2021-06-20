@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Segment, Comment, Header, Form, Button } from 'semantic-ui-react'
+import { Segment, Comment, Header, Form, Button, Checkbox, Input } from 'semantic-ui-react'
 
 const formatTimestamp = (_timestamp) => {
   const time = new Date(_timestamp*1000);
@@ -19,10 +19,18 @@ const Comments = (props) => {
       There isn't any comment yet. Be the first one!
     </Segment>);
   const [commentStr, setCommentStr] = useState('');
+  const [isPayable, setIsPayable] = useState(false);
+  const [payAmount, setPayAmount] = useState();
 
   const handleClick = async () => {
     const { accounts, contracts } = props;
-    contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+    if (isPayable){
+      if (payAmount) {
+        contracts[2].methods.createPayingComment(props.id, commentStr).send({from: accounts[0], value: payAmount});
+      }
+    } else {
+      contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+    }
     setCommentStr('');
   }
 
@@ -62,6 +70,14 @@ const Comments = (props) => {
     });
   }
 
+  const handleToggle = () => {
+    setIsPayable(!isPayable);
+  }
+
+  const handlePayAmount = (e, data) => {
+    setPayAmount(data.value);
+  }
+
   useEffect( () =>{getCommentList()}, []);
 
   const { contracts } = props;
@@ -79,7 +95,9 @@ const Comments = (props) => {
 
       <Form reply>
         <Form.TextArea placeholder='Write your comment here...' onChange={handleInputChange} value={commentStr}/>
-        <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={handleClick}/>
+        <Checkbox checked={isPayable} toggle label='Pay to owner' onChange={handleToggle}/>
+        <Input disabled={!isPayable} placeholder='wei value' onChange={handlePayAmount}/>
+        <Button content='Add Reply' labelPosition='left' icon='edit' primary floated='right' onClick={handleClick}/>
       </Form>
     </Comment.Group>
     )

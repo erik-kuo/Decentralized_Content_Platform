@@ -24,36 +24,36 @@ class Posts extends Component {
   getPosts = async () => {
     const {contracts, accounts} = this.props;
 
-    if (this.props.withTag) {
+    if (typeof this.props.withTag !== 'undefined') {
       console.log('withTag');
       const cat = this.props.withTag;
-      console.log('tag', cat);
+      console.log('tag', cat, cat===6);
 
-      if (cat == 6) {
-        const totalPostNum = await this.props.contracts[0].methods.getPostCount().call();
-        let Posts = [];
-        for (let idx=0; idx < totalPostNum; idx++) {
-          const post = await contracts[0].methods.getPost(idx).call();
-          const nickname = await contracts[1].methods.getNickname(post.owner).call();
-          const postInfo = {
-            owner: nickname,
-            postTime: post.postTime,
-            content: post.content,
-            imgHashs: post.images,
-            id: idx,
-            category: post.category
-          }
-          Posts.push(postInfo);
-        }
-      this.setState({Posts});
-      }
+      // if (cat === 6) {
+      //   const totalPostNum = await this.props.contracts[0].methods.getPostCount().call();
+      //   let Posts = [];
+      //   for (let idx=0; idx < totalPostNum; idx++) {
+      //     const post = await contracts[0].methods.getPost(idx).call();
+      //     const nickname = await contracts[1].methods.getNickname(post.owner).call();
+      //     const postInfo = {
+      //       owner: nickname,
+      //       postTime: post.postTime,
+      //       content: post.content,
+      //       imgHashs: post.images,
+      //       id: idx,
+      //       category: post.category
+      //     }
+      //     Posts.push(postInfo);
+      //   }
+      // this.setState({Posts});
+      // }
 
-      else {
+      // else {
 
         contracts[0].getPastEvents('NewPost', {filter: {category: cat}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
 
           const idList = events.map(event => event.returnValues.postId);
-
+          console.log(idList)
           let Posts = []
           for (let idx = 0; idx < idList.length; idx++) {
             const post = await contracts[0].methods.getPost(idList[idx]).call();
@@ -72,7 +72,7 @@ class Posts extends Component {
         this.setState({Posts});
         })
 
-      }
+      // }
     }
     
     if (this.props.personal) {

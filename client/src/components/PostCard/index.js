@@ -49,7 +49,7 @@ componentDidMount = async () => {
   
   render() {
 
-    const tag = ['Others', 'Sport', 'Movie', 'Technology', 'Art', 'Literature'];
+    const tag = ['', 'Sport', 'Movie', 'Technology', 'Art', 'Literature', 'Others'];
     
 
     return (
