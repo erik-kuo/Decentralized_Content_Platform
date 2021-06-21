@@ -8,7 +8,7 @@ class WriteAPost extends Component {
     this.state = {
       textStr:"",
       imagePreviewURL:"",
-      value:"0"
+      value:"6"
     };
   }
 
@@ -93,8 +93,8 @@ class WriteAPost extends Component {
                   />
                   <Form.Radio
                     label='Others'
-                    value='0'
-                    checked={value === '0'}
+                    value='6'
+                    checked={value === '6'}
                     onChange={this.handleAttribute}
                   />
                   </Form.Group>

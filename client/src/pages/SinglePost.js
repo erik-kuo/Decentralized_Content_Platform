@@ -82,7 +82,7 @@ class SinglePost extends Component {
           </Grid.Row>
         </Grid>
         <Divider/>
-        <Comments accounts={this.props.accounts} contracts={this.props.contracts} id={id}/>
+        <Comments accounts={this.props.accounts} contracts={this.props.contracts} ipfs={this.props.ipfs} id={id}/>
       </Container>
     )
   }

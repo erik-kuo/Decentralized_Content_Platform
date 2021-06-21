@@ -17,7 +17,7 @@ const PersonalStats = (props) => {
         </Grid.Column>
   
           <Grid.Column floated='right' width={12}>
-            <Stats/>
+            <Stats {...props}/>
           </Grid.Column>
 
         </Grid>
