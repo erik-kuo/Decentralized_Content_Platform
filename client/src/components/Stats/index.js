@@ -12,21 +12,24 @@ const Stats = (props) => {
       const idList = events.map(event => event.returnValues.postId);
       let _stats = []
       for (let idx = 0; idx < idList.length; idx++) {
-        const commentCount = await contracts[2].methods.getCommentCountByPost(idList[idx]).call();
+        // const commentCount = await contracts[2].methods.getCommentCountByPost(idList[idx]).call();
+        // console.log(commentCount);
+        // const profit = await contracts[2].methods.getProfitByPost(idList[idx]).call();
         const statInfo = {
           postId: idList[idx],
-          commentCount: commentCount
+          // commentCount: commentCount,
+          // profit: profit,
         }
       _stats.push(statInfo);
       }
-      console.log(_stats);
-      setStatList([..._stats]);
+      // console.log(_stats);
+      // setStatList([..._stats]);
     })
   }
 
   useEffect(() => {getStats();}, []);
 
-  if (!Stats.length) {
+  if (!statList.length) {
     return(
       <p>Write your first post!</p>
     )

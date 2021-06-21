@@ -12,6 +12,7 @@ class SinglePost extends Component {
     // console.log(this.props);
     this.state={
       imgUrls: null,
+      profileImgUrl: '',
     }
   }
 
@@ -32,7 +33,8 @@ class SinglePost extends Component {
   }
 
   getImgs = async () => {
-    const { imgHashs } = this.props.location.state;
+    const { imgHashs, address } = this.props.location.state;
+    const { contracts } = this.props;
     // console.log(imgHashs)
     let imgUrls = []
     for (const cid of imgHashs) {
@@ -40,6 +42,10 @@ class SinglePost extends Component {
       imgUrls.push(url);
     }
     this.setState({ imgUrls })
+
+    const profileImgHash = await contracts[1].methods.getPhoto(address).call();
+    const profileImgUrl = await this.getImage(profileImgHash);
+    this.setState({profileImgUrl})
     // console.log(this.state)
   }
 
@@ -64,7 +70,7 @@ class SinglePost extends Component {
           <Grid.Row>
             <Item.Group>
               <Item>
-                <Image src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' circular centered/>
+                <Image src={this.state.profileImgUrl} circular centered size='tiny'/>
                 <Item.Content>
                   <Item.Header> {owner} </Item.Header>
                   <Item.Meta>

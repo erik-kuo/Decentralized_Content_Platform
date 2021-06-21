@@ -11,12 +11,8 @@ const Stat = (props) => {
         <Statistic.Label>comments</Statistic.Label>
       </Statistic>
       <Statistic size='mini'>
-        <Statistic.Value>31,200</Statistic.Value>
-        <Statistic.Label>Views</Statistic.Label>
-      </Statistic>
-      <Statistic size='mini'>
-        <Statistic.Value>22</Statistic.Value>
-        <Statistic.Label>Members</Statistic.Label>
+        <Statistic.Value>{props.stat.profit}</Statistic.Value>
+        <Statistic.Label>Profit</Statistic.Label>
       </Statistic>
     {props.last ? (
         null
