@@ -48,6 +48,7 @@ contract PostManager {
     constructor() public {
         string[] memory images = new string[](1);
         images[0] = "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm";
-        createPost("Hello, world", images, 6);
+        posts.push(Post(now, address(0), "一名顧客點了一份炒飯，酒吧陷入火海。", images, 6));
+        emit NewPost(address(0), 0, 6);
     }
 }

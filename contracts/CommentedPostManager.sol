@@ -23,10 +23,24 @@ contract CommentedPostManager is PostManager {
     }
     
     function getCommentCountByPost(uint _postId) view external returns(uint) {
+        require(_postId < getPostCount());
+        
         uint result = 0;
         for(uint id=0; id<comments.length; id++) {
             if(comments[id].postId == _postId) {
                 result++;
+            }
+        }
+        return result;
+    }
+    
+    function getProfitByPost(uint _postId) view external returns(uint) {
+        require(_postId < getPostCount());
+        
+        uint result = 0;
+        for(uint id=0; id<comments.length; id++) {
+            if(comments[id].postId == _postId) {
+                result += comments[id].value;
             }
         }
         return result;
