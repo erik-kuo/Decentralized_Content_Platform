@@ -46,7 +46,10 @@ contract ProfileManager {
     }
     
     function getPhoto(address _user) view external returns(string memory) {
-        if(keccak256(abi.encodePacked(profiles[_user].photo)) == keccak256(abi.encodePacked(""))) {
+        if(_user == address(0)) {
+            return "QmVY8ezuCmn9cn7mugYTxk2QXVWnRiufaVtkLjFXPwzV9S";
+        }
+        else if(keccak256(abi.encodePacked(profiles[_user].photo)) == keccak256(abi.encodePacked(""))) {
             return _getDefaultPhoto(_user);
         }
         else {
