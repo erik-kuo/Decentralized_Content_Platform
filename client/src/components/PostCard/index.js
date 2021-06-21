@@ -25,6 +25,12 @@ componentDidMount = async () => {
   this.getImage(this.props.post.imgHashs[0]);
 }
 
+componentDidUpdate = async (prevProps) => {
+  if (prevProps.post.imgHashs[0] !== this.props.post.imgHashs[0]) {
+    this.getImage(this.props.post.imgHashs[0]);
+  }
+}
+
   getImage = async (cid) => {
     let content = []
     for await (const chunk of this.props.ipfs.cat(cid)) {
@@ -49,8 +55,7 @@ componentDidMount = async () => {
   
   render() {
 
-    const tag = ['Others', 'Sport', 'Movie', 'Technology', 'Art', 'Literature'];
-    
+    const tag = ['', 'Sport', 'Movie', 'Technology', 'Art', 'Literature', 'Others'];
 
     return (
       <Item
@@ -63,7 +68,8 @@ componentDidMount = async () => {
             content: this.props.post.content,
             imgHashs: this.props.post.imgHashs,
             id: this.props.post.id,
-            attribute: this.props.post.category
+            attribute: this.props.post.category,
+            address: this.props.post.address,
           },
         }}
       >

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Segment, Comment, Header, Form, Button } from 'semantic-ui-react'
+import { Segment, Comment, Header, Form, Button, Checkbox, Input } from 'semantic-ui-react'
+import uint8ArrayConcat from 'uint8arrays/concat';
 
 const formatTimestamp = (_timestamp) => {
   const time = new Date(_timestamp*1000);
@@ -19,15 +20,35 @@ const Comments = (props) => {
       There isn't any comment yet. Be the first one!
     </Segment>);
   const [commentStr, setCommentStr] = useState('');
+  const [isPayable, setIsPayable] = useState(false);
+  const [payAmount, setPayAmount] = useState();
 
   const handleClick = async () => {
     const { accounts, contracts } = props;
-    contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+    if (isPayable){
+      if (payAmount) {
+        contracts[2].methods.createPayingComment(props.id, commentStr).send({from: accounts[0], value: payAmount});
+      }
+    } else {
+      contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+    }
     setCommentStr('');
   }
 
   const handleInputChange = (e, data) => {
     setCommentStr(data.value);
+  }
+
+  const getImage = async (cid) => {
+    let content = []
+    for await (const chunk of props.ipfs.cat(cid)) {
+      content.push(chunk)
+    }
+    const imageRaw = uint8ArrayConcat(content)
+    const buffer = new Blob([imageRaw.buffer])
+    const imageUrl = URL.createObjectURL(buffer)
+    // console.log(imageURL)
+    return(imageUrl);
   }
 
   const getCommentList = async() => {
@@ -38,8 +59,11 @@ const Comments = (props) => {
       for (let idx=0; idx < idList.length; idx++) {
         const comment = await contracts[2].methods.getComment(idList[idx]).call();
         const nickname = await contracts[1].methods.getNickname(comment.owner).call();
+        const imgHash = await contracts[1].methods.getPhoto(comment.owner).call();
+        const imgUrl = await getImage(imgHash)
         const commentInfo = {
           owner : nickname,
+          imgUrl: imgUrl,
           postTime: formatTimestamp(comment.postTime),
           content: comment.content,
         }
@@ -47,7 +71,7 @@ const Comments = (props) => {
       }
       setContent(_lst.map((comment) =>
       <Comment>
-        <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+        <Comment.Avatar src={comment.imgUrl} />
         <Comment.Content>
           <Comment.Author as='a'>{comment.owner}</Comment.Author>
           <Comment.Metadata>
@@ -60,6 +84,14 @@ const Comments = (props) => {
         </Comment.Content>
       </Comment>));
     });
+  }
+
+  const handleToggle = () => {
+    setIsPayable(!isPayable);
+  }
+
+  const handlePayAmount = (e, data) => {
+    setPayAmount(data.value);
   }
 
   useEffect( () =>{getCommentList()}, []);
@@ -79,7 +111,9 @@ const Comments = (props) => {
 
       <Form reply>
         <Form.TextArea placeholder='Write your comment here...' onChange={handleInputChange} value={commentStr}/>
-        <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={handleClick}/>
+        <Checkbox checked={isPayable} toggle label='Pay to owner' onChange={handleToggle}/>
+        <Input disabled={!isPayable} placeholder='wei value' onChange={handlePayAmount}/>
+        <Button content='Add Reply' labelPosition='left' icon='edit' primary floated='right' onClick={handleClick}/>
       </Form>
     </Comment.Group>
     )

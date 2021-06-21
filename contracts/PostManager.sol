@@ -14,10 +14,16 @@ contract PostManager {
     uint postCooldown = 30 seconds;
     mapping(address => uint) nextPostTime;
     
-    event NewPost(uint indexed category, address indexed owner, uint postId);
+    event NewPost(address indexed owner, uint postId, uint indexed category);
     
     function getPostCount() view public returns(uint) {
         return posts.length;
+    }
+    
+    function _getPostOwner(uint _id) view internal returns(address payable) {
+        require(_id < posts.length);
+        
+        return  address(uint160(posts[_id].owner));
     }
     
     function getPost(uint _id) view external returns(address owner, uint postTime, string memory content, string[] memory images, uint category) {
@@ -36,12 +42,13 @@ contract PostManager {
         uint id = posts.push(Post(now, msg.sender, _content, _images, _category)) - 1;
         nextPostTime[msg.sender] = now + postCooldown;
         
-        emit NewPost(_category, msg.sender, id);
+        emit NewPost(msg.sender, id, _category);
     }
     
     constructor() public {
         string[] memory images = new string[](1);
         images[0] = "QmZygsw7Z9TNYkmtqkjjtox5WU7pEMHwekAVGquC32vTCm";
-        createPost("Hello, world", images, 0);
+        posts.push(Post(now, address(0), "一名顧客點了一份炒飯，酒吧陷入火海。", images, 6));
+        emit NewPost(address(0), 0, 6);
     }
 }

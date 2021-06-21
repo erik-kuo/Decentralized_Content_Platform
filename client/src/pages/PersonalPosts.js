@@ -1,5 +1,5 @@
 import React, {Component, createRef, useState} from 'react'
-import { Segment, Container, Grid, Sticky, Ref, Rail, Input, Header, Button } from 'semantic-ui-react';
+import { Form, Container, Grid, Sticky, Ref, Input, Header, Button, Image } from 'semantic-ui-react';
 import Posts from '../components/Posts';
 import Profile from '../components/Profile';
 
@@ -7,14 +7,43 @@ import Profile from '../components/Profile';
 const PersonalPosts = (props) => {
 
   const [nickname, setNickname] = useState('');
+  const [intro, setIntro] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
 
-  const handleClick = async () => {
+  const handleNicknameClick = async () => {
     const { accounts, contracts } = props;
     contracts[1].methods.setNickname(nickname).send({from:accounts[0]});
     setNickname('');
   }
-  const handleInputChange = (e, data) => {
+  const handleNicknameInputChange = (e, data) => {
     setNickname(data.value);
+  }
+
+  const handleIntroClick = async () => {
+    const { accounts, contracts } = props;
+    contracts[1].methods.setSelfIntro(intro).send({from:accounts[0]});
+    setIntro('');
+  }
+  const handleIntroInputChange = (e, data) => {
+    setIntro(data.value);
+  }
+
+  const fileInputRef = React.createRef();
+  const uploadImage = async (e) => {
+    const imageFile = e.target.files[0]
+    const imagePreviewURL = URL.createObjectURL(imageFile)
+    setImgUrl(imagePreviewURL);
+  }
+  const handleSubmit = async () => {
+    /* Upload image to IPFS */
+    const imageFile = await fetch(imgUrl).then(r => r.blob())
+
+    const { path } = await props.ipfs.add(imageFile)
+    console.log('Result CID', path)
+
+    const { accounts, contracts } = props;
+    contracts[1].methods.setPhoto(path).send({from: accounts[0]});
+    setImgUrl('');
   }
 
   return (
@@ -22,8 +51,8 @@ const PersonalPosts = (props) => {
       <Grid relaxed>
         <Grid.Column width={4}>
           <Ref innerRef={createRef}>
-              <Sticky offset={300}>
-                <Profile contracts={props.contracts} accounts={props.accounts}/>
+              <Sticky offset={100}>
+                <Profile contracts={props.contracts} accounts={props.accounts} ipfs={props.ipfs}/>
                 
               </Sticky>
           </Ref>
@@ -35,7 +64,35 @@ const PersonalPosts = (props) => {
         </Grid.Column>
         <Grid.Column floated='right' width={4}>
           <Header>Set your Nickname</Header>
-          <Input action={<Button content='Set' onClick={handleClick}/>} placeholder='Nickname...' onChange={handleInputChange}/>
+          <Input action={<Button content='Set' onClick={handleNicknameClick}/>} placeholder='Nickname...' onChange={handleNicknameInputChange}/>
+          <Header>Set your Intro</Header>
+          <Input action={<Button content='Set' onClick={handleIntroClick}/>} placeholder='Nickname...' onChange={handleIntroInputChange}/>
+          <Form>
+            <Form.Group>
+              <Form.Field>
+                <Button
+                  floated='left'
+                  content="Choose Image"
+                  labelPosition="left"
+                  icon="file image"
+                  onClick={() => fileInputRef.current.click()}
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  hidden
+                  onChange={uploadImage}
+                />
+              </Form.Field>
+              <Button type='submit' floated='right' onClick={handleSubmit}>Submit</Button>
+            </Form.Group>
+          </Form>
+          { imgUrl ? (
+            <Image src={imgUrl} size='small' circular centered/>
+            ) : (
+              null
+            )
+          }
         </Grid.Column>
       </Grid>
     </Container>

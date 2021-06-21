@@ -4,7 +4,7 @@ import Posts from '../components/Posts';
 
 const Home = (props) => {
 
-  const [filter, setFilter] = useState(6);
+  const [filter, setFilter] = useState(0);
   const [activeItem, setActiveItem] = useState('All');
 
   const handleItemClick = (e, { name, tag }) => {
@@ -24,7 +24,7 @@ const Home = (props) => {
                 <Menu.Item
                   name='All'
                   active={activeItem === 'All'}                  
-                  tag={6}
+                  tag={0}
                   onClick={handleItemClick}
                 />
                 <Menu.Item
@@ -60,7 +60,7 @@ const Home = (props) => {
                 <Menu.Item
                   name='Others'
                   active={activeItem === 'Others'}
-                  tag={0}
+                  tag={6}
                   onClick={handleItemClick}
                 />
                 
