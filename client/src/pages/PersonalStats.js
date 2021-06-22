@@ -10,13 +10,8 @@ const PersonalStats = (props) => {
       <Grid relaxed>
         <Grid.Column width={4}>
           <Ref innerRef={createRef}>
-<<<<<<< HEAD
-              <Sticky offset={300}>
-                <Profile contracts={props.contracts} accounts={props.accounts}/>
-=======
               <Sticky offset={100}>
                 <Profile contracts={props.contracts} accounts={props.accounts} ipfs={props.ipfs}/>
->>>>>>> 9a013ee5fd9fbd528749d706904cec2eb2c42d8d
               </Sticky>
           </Ref>
         </Grid.Column>
