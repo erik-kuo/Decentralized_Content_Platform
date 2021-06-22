@@ -52,7 +52,7 @@ const PersonalPosts = (props) => {
         <Grid.Column width={4}>
           <Ref innerRef={createRef}>
               <Sticky offset={100}>
-                <Profile contracts={props.contracts} accounts={props.accounts} ipfs={props.ipfs}/>
+                <Profile contracts={props.contracts} ipfs={props.ipfs} address={props.accounts[0]}/>
                 
               </Sticky>
           </Ref>
@@ -63,16 +63,23 @@ const PersonalPosts = (props) => {
           <Posts personal {...props}/>
         </Grid.Column>
         <Grid.Column floated='right' width={4}>
-          <Header>Set your Nickname</Header>
-          <Input action={<Button content='Set' onClick={handleNicknameClick}/>} placeholder='Nickname...' onChange={handleNicknameInputChange}/>
-          <Header>Set your Intro</Header>
-          <Input action={<Button content='Set' onClick={handleIntroClick}/>} placeholder='Nickname...' onChange={handleIntroInputChange}/>
+          <Header>Edit your profile here!</Header>
           <Form>
+          <Form.Field>
+            <label>Set nickname</label>
+            <Input action={<Button content='Set' onClick={handleNicknameClick}/>} placeholder='Nickname...' onChange={handleNicknameInputChange}/>
+          </Form.Field>
+          <Form.Field>
+            <label>Edit bio</label>
+            
+            <Input action={<Button content='Set' onClick={handleIntroClick}/>} placeholder='Something about you...' onChange={handleIntroInputChange}/>
+          </Form.Field>
+          
             <Form.Group>
               <Form.Field>
                 <Button
                   floated='left'
-                  content="Choose Image"
+                  content="Upload profile image"
                   labelPosition="left"
                   icon="file image"
                   onClick={() => fileInputRef.current.click()}

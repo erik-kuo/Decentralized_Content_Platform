@@ -8,7 +8,7 @@ const Profile = (props) => {
   const [name, setName] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [intro, setIntro] = useState('');
-  const { contracts, accounts } = props;
+  const { contracts, address } = props;
 
   const getImage = async (cid) => {
     let content = []
@@ -23,11 +23,11 @@ const Profile = (props) => {
   }
 
   const getProfile = async() => {
-    const name = await contracts[1].methods.getNickname(accounts[0]).call();
+    const name = await contracts[1].methods.getNickname(address).call();
     setName(name);
-    const imgHash = await contracts[1].methods.getPhoto(accounts[0]).call();
+    const imgHash = await contracts[1].methods.getPhoto(address).call();
     getImage(imgHash);
-    const introStr = await contracts[1].methods.getSelfIntro(accounts[0]).call();
+    const introStr = await contracts[1].methods.getSelfIntro(address).call();
     setIntro(introStr);
   }
   useEffect(() => {getProfile()},[]);

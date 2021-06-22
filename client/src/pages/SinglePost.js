@@ -3,6 +3,7 @@ import { Container, Grid, Item, Image, Dimmer, Loader, Divider } from 'semantic-
 import uint8ArrayConcat from 'uint8arrays/concat';
 
 import Comments from '../components/Comments';
+import MyModal from '../components/MyModal';
 
 
 class SinglePost extends Component {
@@ -76,6 +77,7 @@ class SinglePost extends Component {
                   <Item.Meta>
                     <span className='cinema'>{postTime}</span>
                   </Item.Meta>
+                  <MyModal contracts={this.props.contracts} address={this.props.location.state.address} ipfs={this.props.ipfs}/>
                 </Item.Content>
               </Item>
             </Item.Group>
