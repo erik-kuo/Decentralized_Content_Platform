@@ -2,7 +2,6 @@ import React from 'react'
 import { Segment, Header, Divider, Statistic } from 'semantic-ui-react'
 
 const Stat = (props) => {
-  console.log(props);
   return(
   <div>
     <Header as='h3'>Post {props.stat.postId}</Header>
