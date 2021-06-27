@@ -51,7 +51,7 @@ const PersonalPosts = (props) => {
       <Grid relaxed>
         <Grid.Column width={4}>
           <Ref innerRef={createRef}>
-              <Sticky offset={100}>
+              <Sticky offset={250}>
                 <Profile contracts={props.contracts} ipfs={props.ipfs} address={props.accounts[0]}/>
                 
               </Sticky>

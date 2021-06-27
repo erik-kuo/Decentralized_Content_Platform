@@ -15,7 +15,7 @@ function MyModal(props) {
       trigger={<Button icon><Icon name='question circle outline'/></Button>}
     >
       
-      <Modal.Header>Arthor</Modal.Header>
+      <Modal.Header>Author</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <Profile contracts={props.contracts} address={props.address} ipfs={props.ipfs}/>
