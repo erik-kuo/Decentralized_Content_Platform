@@ -27,10 +27,10 @@ const Comments = (props) => {
     const { accounts, contracts } = props;
     if (isPayable){
       if (payAmount) {
-        contracts[2].methods.createPayingComment(props.id, commentStr).send({from: accounts[0], value: payAmount});
+        contracts[0].methods.createPayingComment(props.id, commentStr).send({from: accounts[0], value: payAmount});
       }
     } else {
-      contracts[2].methods.createComment(props.id, commentStr).send({from: accounts[0]});
+      contracts[0].methods.createComment(props.id, commentStr).send({from: accounts[0]});
     }
     setCommentStr('');
   }
@@ -53,11 +53,11 @@ const Comments = (props) => {
 
   const getCommentList = async() => {
     const { contracts } = props;
-    contracts[2].getPastEvents('NewComment', {filter: {postId: props.id}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
+    contracts[0].getPastEvents('NewComment', {filter: {postId: props.id}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
       const idList = events.map(event => event.returnValues.commentId);
       let _lst = [];
       for (let idx=0; idx < idList.length; idx++) {
-        const comment = await contracts[2].methods.getComment(idList[idx]).call();
+        const comment = await contracts[0].methods.getComment(idList[idx]).call();
         const nickname = await contracts[1].methods.getNickname(comment.owner).call();
         const imgHash = await contracts[1].methods.getPhoto(comment.owner).call();
         const imgUrl = await getImage(imgHash)
@@ -66,6 +66,7 @@ const Comments = (props) => {
           imgUrl: imgUrl,
           postTime: formatTimestamp(comment.postTime),
           content: comment.content,
+          value: comment.value,
         }
         _lst.push(commentInfo);
       }
@@ -79,7 +80,7 @@ const Comments = (props) => {
           </Comment.Metadata>
           <Comment.Text>{comment.content}</Comment.Text>
           <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
+            <Comment.Action>{comment.value} wei</Comment.Action>
           </Comment.Actions>
         </Comment.Content>
       </Comment>));
@@ -97,7 +98,7 @@ const Comments = (props) => {
   useEffect( () =>{getCommentList()}, []);
 
   const { contracts } = props;
-  contracts[2].events.NewComment({filter: {postId: props.id}, fromBlock: 0, toBlock: 'latest'}, (error, event) => {
+  contracts[0].events.NewComment({filter: {postId: props.id}, fromBlock: 0, toBlock: 'latest'}, (error, event) => {
     getCommentList();
   })
 

@@ -12,18 +12,16 @@ const Stats = (props) => {
       const idList = events.map(event => event.returnValues.postId);
       let _stats = []
       for (let idx = 0; idx < idList.length; idx++) {
-        // const commentCount = await contracts[2].methods.getCommentCountByPost(idList[idx]).call();
-        // console.log(commentCount);
-        // const profit = await contracts[2].methods.getProfitByPost(idList[idx]).call();
+        const commentCount = await contracts[0].methods.getCommentCountByPost(idList[idx]).call();
+        const profit = await contracts[0].methods.getProfitByPost(idList[idx]).call();
         const statInfo = {
           postId: idList[idx],
-          // commentCount: commentCount,
-          // profit: profit,
+          commentCount: commentCount,
+          profit: profit,
         }
       _stats.push(statInfo);
       }
-      // console.log(_stats);
-      // setStatList([..._stats]);
+      setStatList([..._stats]);
     })
   }
 
@@ -36,37 +34,7 @@ const Stats = (props) => {
   } else {
     return (
       <Segment textAlign='left'>
-        {statList.map((statInfo, index) => <Stat stat={statInfo} last={index===statList.length-1}/>)}
-        {/* <Header as='h3'>Post 0</Header>
-          <Stat/>
-        <Divider section />
-        <Header as='h3'>Post 1</Header>
-          <Stat/>
-        <Divider section />
-        <Header as='h3'>Post 2</Header>
-          <Stat/>
-        <Divider section />
-        <Header as='h3'>Post 3</Header>
-          <Stat/>
-        <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/>
-          <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/>
-          <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/>
-          <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/>
-          <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/>
-          <Divider section />
-        <Header as='h3'>Post 4</Header>
-          <Stat/> */}
-          
+        {statList.map((statInfo, index) => <Stat stat={statInfo} last={index===statList.length-1}/>)}          
       </Segment>
   
     )
