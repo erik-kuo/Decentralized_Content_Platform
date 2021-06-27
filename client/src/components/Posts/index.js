@@ -32,6 +32,9 @@ class Posts extends Component {
       contracts[0].getPastEvents('NewPost', {filter: {category: cat}, fromBlock: 0, toBlock: 'latest'}, async (error, events) => {
         const idList = events.map(event => event.returnValues.postId);
         console.log(idList)
+        let commentCount = await Promise.all(idList.map(async (id, index) => {const count = await contracts[0].methods.getCommentCountByPost(id).call(); return count;} ))
+        console.log(commentCount)
+        idList.sort(function(a, b) {return commentCount[b]-commentCount[a]; });
         let Posts = []
         for (let idx = 0; idx < idList.length; idx++) {
           const post = await contracts[0].methods.getPost(idList[idx]).call();

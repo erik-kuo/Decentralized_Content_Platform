@@ -66,6 +66,7 @@ const Comments = (props) => {
           imgUrl: imgUrl,
           postTime: formatTimestamp(comment.postTime),
           content: comment.content,
+          value: comment.value,
         }
         _lst.push(commentInfo);
       }
@@ -79,7 +80,7 @@ const Comments = (props) => {
           </Comment.Metadata>
           <Comment.Text>{comment.content}</Comment.Text>
           <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
+            <Comment.Action>{comment.value} wei</Comment.Action>
           </Comment.Actions>
         </Comment.Content>
       </Comment>));
