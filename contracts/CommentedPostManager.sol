@@ -69,6 +69,7 @@ contract CommentedPostManager is PostManager {
     function createPayingComment(uint _postId, string calldata _content) external payable {
         require(msg.value > 0 wei);
         require(_postId < getPostCount());
+        require(posts[_postId].owner != msg.sender);
         require(nextCommentTime[msg.sender] <= now);
         
         uint id = comments.push(Comment(_postId, msg.sender, now, _content, msg.value)) - 1;
