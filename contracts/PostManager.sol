@@ -11,7 +11,7 @@ contract PostManager {
     }
     Post[] posts;
     
-    uint postCooldown = 30 seconds;
+    uint postCooldown = 5 seconds;  // 因應demo特別改短，原先設定為30 seconds
     mapping(address => uint) nextPostTime;
     
     event NewPost(address indexed owner, uint postId, uint indexed category);
