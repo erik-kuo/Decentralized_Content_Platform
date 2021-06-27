@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Menu, Segment, Sticky, Image } from 'semantic-ui-react'
+import { Container, Menu, Segment, Icon, Image } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import logo from './logo.png'
 
@@ -15,7 +15,7 @@ export default class MyMenu extends Component {
       <Menu fixed='top' inverted secondary style={{backgroundColor: 'black'}}>
         <Container>
           <Menu.Item>
-            <Image size='small' src={logo} />
+            <Icon name='ethereum' size='huge'/>
           </Menu.Item>
           <Menu.Item
             header
