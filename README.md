@@ -33,7 +33,9 @@ $ npm install
 
 # Usage
 
-Make sure you have opened ganache and then type the following commands in the terminal.
+Make sure you have opened ganache, check your ganache host and post, deafult host:127.0.0.1, port:8545.
+If your host/port are not the same, please change truffle-config.js and client/src/getWeb3.js line 29.
+After checking ganache host and port, type the following commands in the terminal.
 
 ```jsx
 $ truffle compile
